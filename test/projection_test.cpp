@@ -252,7 +252,7 @@ TEST(laser_geometry, projectLaser2) {
 // Needs to publish a transform to "laser_frame" in order to work.
 #if 0
 TEST(laser_geometry, transformLaserScanToPointCloud2) {
-  tf2::BufferCore tf2;
+  tf2_ros::Buffer tf2;
 
   double tolerance = 1e-12;
   laser_geometry::LaserProjection projector;

@@ -38,7 +38,7 @@
 
 #include <Eigen/Core>  // NOLINT (cpplint cannot handle include order here)
 
-#include "tf2/buffer_core.h"
+#include "tf2_ros/buffer.h"
 #include "sensor_msgs/msg/laser_scan.hpp"
 #include "sensor_msgs/msg/point_cloud2.hpp"
 #include "laser_geometry/visibility_control.hpp"
@@ -140,7 +140,7 @@ public:
    * \param target_frame The frame of the resulting point cloud
    * \param scan_in The input laser scan
    * \param cloud_out The output point cloud
-   * \param tf a tf2::BufferCore object to use to perform the
+   * \param tf a tf2_ros::Buffer object to use to perform the
    *   transform
    * \param range_cutoff An additional range cutoff which can be
    *   applied to discard everything above it.
@@ -155,7 +155,7 @@ public:
     const std::string & target_frame,
     const sensor_msgs::msg::LaserScan & scan_in,
     sensor_msgs::msg::PointCloud2 & cloud_out,
-    tf2::BufferCore & tf,
+    tf2_ros::Buffer & tf,
     double range_cutoff = -1.0,
     int channel_options = channel_option::Default)
   {
@@ -176,7 +176,7 @@ private:
     const std::string & target_frame,
     const sensor_msgs::msg::LaserScan & scan_in,
     sensor_msgs::msg::PointCloud2 & cloud_out,
-    tf2::BufferCore & tf,
+    tf2_ros::Buffer & tf,
     double range_cutoff,
     int channel_options);
 

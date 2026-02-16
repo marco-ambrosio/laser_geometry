@@ -419,7 +419,7 @@ void LaserProjection::transformLaserScanToPointCloud_(
   const std::string & target_frame,
   const sensor_msgs::msg::LaserScan & scan_in,
   sensor_msgs::msg::PointCloud2 & cloud_out,
-  tf2::BufferCore & tf,
+  tf2_ros::Buffer & tf,
   double range_cutoff,
   int channel_options)
 {
@@ -434,11 +434,11 @@ void LaserProjection::transformLaserScanToPointCloud_(
   std::chrono::nanoseconds start(start_time.nanoseconds());
   std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds> st(start);
   geometry_msgs::msg::TransformStamped start_transform = tf.lookupTransform(
-    target_frame, scan_in.header.frame_id, st);
+    target_frame, scan_in.header.frame_id, st, tf2::durationFromSec(0.05));
   std::chrono::nanoseconds end(end_time.nanoseconds());
   std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds> e(end);
   geometry_msgs::msg::TransformStamped end_transform = tf.lookupTransform(
-    target_frame, scan_in.header.frame_id, e);
+    target_frame, scan_in.header.frame_id, e, tf2::durationFromSec(0.05));
 
   tf2::Quaternion quat_start(start_transform.transform.rotation.x,
     start_transform.transform.rotation.y,

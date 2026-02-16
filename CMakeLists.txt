@@ -11,6 +11,7 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(tf2 REQUIRED)
+find_package(tf2_ros REQUIRED)
 find_package(eigen3_cmake_module REQUIRED)
 find_package(Eigen3 REQUIRED)
 
@@ -27,6 +28,7 @@ ament_target_dependencies(laser_geometry
   "rclcpp"
   "sensor_msgs"
   "tf2"
+  "tf2_ros"
 )
 
 # Causes the visibility macros to use dllexport rather than dllimport,
@@ -46,6 +48,7 @@ ament_export_dependencies(
   rclcpp
   sensor_msgs
   tf2
+  tf2_ros
 )
 
 install(
