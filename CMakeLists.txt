@@ -9,15 +9,18 @@ endif()
 find_package(ament_cmake REQUIRED)
 
 find_package(rclcpp REQUIRED)
+find_package(rclcpp_components REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
+find_package(tf2_sensor_msgs REQUIRED)
 find_package(eigen3_cmake_module REQUIRED)
 find_package(Eigen3 REQUIRED)
 
 ament_python_install_package(laser_geometry PACKAGE_DIR src/laser_geometry)
 
-add_library(laser_geometry SHARED src/laser_geometry.cpp)
+add_library(laser_geometry SHARED src/laser_geometry.cpp src/laserscan_to_pointcloud.cpp)
 target_include_directories(laser_geometry
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -25,11 +28,29 @@ target_include_directories(laser_geometry
   ${Eigen3_INCLUDE_DIRS}
 )
 ament_target_dependencies(laser_geometry
-  "rclcpp"
-  "sensor_msgs"
-  "tf2"
-  "tf2_ros"
+  rclcpp
+  rclcpp_components
+  sensor_msgs
+  geometry_msgs
+  tf2
+  tf2_ros
+  tf2_sensor_msgs
 )
+
+# add_library(laserscan_to_pointcloud SHARED src/laserscan_to_pointcloud.cpp)
+# target_include_directories(laserscan_to_pointcloud PUBLIC
+#   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+#   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+# )
+# ament_target_dependencies(laserscan_to_pointcloud
+#   rclcpp
+#   rclcpp_components
+#   sensor_msgs
+#   geometry_msgs
+#   tf2
+#   tf2_ros
+#   tf2_sensor_msgs
+# )
 
 # Causes the visibility macros to use dllexport rather than dllimport,
 # which is appropriate when building the dll but not consuming it.
@@ -47,8 +68,16 @@ ament_export_dependencies(
   Eigen3
   rclcpp
   sensor_msgs
+  geometry_msgs
   tf2
   tf2_ros
+  tf2_sensor_msgs
+)
+
+rclcpp_components_register_node(
+  laser_geometry
+  PLUGIN "laser_geometry::LaserToPointCloud"
+  EXECUTABLE laser_to_pointcloud_node
 )
 
 install(
